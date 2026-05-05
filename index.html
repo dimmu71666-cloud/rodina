@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rodina Koudelkových</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:    #0a0a0b;
+      --dark:     #111114;
+      --surface:  #18181c;
+      --surface2: #222228;
+      --border:   #2e2e38;
+      --red:      #c0392b;
+      --red-glow: #e74c3c;
+      --silver:   #b0b0be;
+      --light:    #d8d8e8;
+      --dim:      #6a6a80;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--light);
+      font-family: 'Crimson Text', serif;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section {
+      animation: fadeIn 0.8s ease-out forwards;
+      opacity: 0;
+    }
+
+    section:nth-child(1) { animation-delay: 0.1s; }
+    section:nth-child(3) { animation-delay: 0.3s; }
+    section:nth-child(5) { animation-delay: 0.5s; }
+
+    header {
+      position: relative;
+      background: var(--dark);
+      border-bottom: 1px solid var(--border);
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    @keyframes red-glow {
+      0% { text-shadow: 0 0 10px rgba(192, 57, 43, 0.4); }
+      50% { text-shadow: 0 0 25px rgba(231, 76, 60, 0.8); }
+      100% { text-shadow: 0 0 10px rgba(192, 57, 43, 0.4); }
+    }
+
+    h1 span { 
+      color: var(--red-glow); 
+      animation: red-glow 3s infinite ease-in-out;
+    }
+
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem; /* Zmenšeno písmo pro více odkazů */
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--silver);
+      text-decoration: none;
+      padding: 1rem 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover { color: var(--red-glow); transform: scale(1.1); }
+
+    main { max-width: 920px; margin: 0 auto; padding: 3.5rem 1.5rem 5rem; }
+
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .member-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: all 0.4s ease;
+    }
+
+    .member-card:hover {
+      background: var(--surface2);
+      border-color: var(--red);
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .avatar {
+      width: 75px; height: 75px; /* Mírně zmenšené kruhy */
+      border-radius: 50%;
+      margin: 0 auto 1.2rem;
+      border: 3px solid var(--border);
+      background-size: cover;
+      background-position: center;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* ZDE SI ZÍTRA DOPLNÍTE ODKAZY NA FOTKY ČLENŮ */
+    .avatar.a { background-image: url('tatka.jpg'); }
+    .avatar.b { background-image: url('mamina.jpg'); }
+    .avatar.c { background-image: url('marta.jpg'); }
+    .avatar.d { background-image: url('kika.jpg'); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* 3 sloupce pro menší okénka */
+      gap: 1rem;
+    }
+
+    .gallery-item {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: 0.5s ease;
+    }
+
+    .gallery-item:hover img { transform: scale(1.2); filter: brightness(0.8); }
+
+    .gallery-item small {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      text-align: center;
+      padding: 5px;
+      font-size: 0.55rem;
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    .gallery-item:hover small { opacity: 1; }
+
+    .divider { text-align: center; color: var(--red); margin: 3rem 0; opacity: 0.5; }
+    footer { text-align: center; padding: 4rem 2rem; color: var(--dim); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    
+    .btn {
+      background: var(--red);
+      color: white;
+      padding: 0.8rem 2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Cinzel';
+      transition: 0.3s;
+    }
+    .btn:hover { background: var(--red-glow); transform: scale(1.05); }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <p style="text-transform:uppercase; letter-spacing: 0.3em; color: var(--red); font-size: 0.7rem;">✦ Soukromá stránka ✦</p>
+    <h1>Rodina <span>Koudelkových</span></h1>
+    <p style="font-style: italic; color: var(--dim);">Krev je silnější než vše ostatní</p>
+  </header>
+
+  <nav>
+    <a href="#clenove">Členové</a>
+    <a href="#fotky">Galerie</a>
+    <a href="https://www.youtube.com/watch?v=3AaR3_b1jaY&t=1s" target="_blank" style="color: var(--red-glow);">Dronové záběry</a>
+  </nav>
+
+  <main>
+    <section id="clenove">
+      <h2 style="font-family: 'Cinzel'; margin-bottom: 2rem; text-align: center;">Naše Rodina</h2>
+      <div class="members-grid">
+        <div class="member-card">
+          <div class="avatar a"></div>
+          <div class="name" style="font-family:'Cinzel'; font-weight: bold;">Martin</div>
+          <div class="role" style="color: var(--dim);">Táta</div>
+        </div>
+        <div class="member-card">
+          <div class="avatar b"></div>
+          <div class="name" style="font-family:'Cinzel'; font-weight: bold;">Alča</div>
+          <div class="role" style="color: var(--dim);">Máma</div>
+        </div>
+        <div class="member-card">
+          <div class="avatar c"></div>
+          <div class="name" style="font-family:'Cinzel'; font-weight: bold;">Marťa</div>
+          <div class="role" style="color: var(--dim);">Syn</div>
+        </div>
+        <div class="member-card">
+          <div class="avatar d"></div>
+          <div class="name" style="font-family:'Cinzel'; font-weight: bold;">Kika</div>
+          <div class="role" style="color: var(--dim);">Dcera</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider">✦ ✦ ✦</div>
+
+    <!-- SEKCE GALERIE -->
+    <section id="fotky">
+      <h2 style="font-family: 'Cinzel'; margin-bottom: 2rem; text-align: center;">Z našich cest a oslav</h2>
+      
+      <div class="gallery-grid">
+        
+        <!-- 1. FOTKA -->
+        <div class="gallery-item">
+          <a href="https://www.rajce.idnes.cz/dimmu71/album/mamka" target="_blank">
+            <img src="https://img45.rajce.idnes.cz/d4502/15/15474/15474322_27521027bc75cccd4ad4af9bec20427a/images/13.jpg?ver=0" alt="Mamka">
+          </a>
+          <small>Mamka</small>
+        </div>
+
+        <!-- 2. FOTKA -->
+        <div class="gallery-item">
+          <a href="https://www.rajce.idnes.cz/dimmu71/album/svatba" target="_blank">
+            <img src="https://img45.rajce.idnes.cz/d4503/19/19952/19952818_f93484e35ff360a5fbafc6318a103a2d/images/IMG-20240527-WA0017.jpg?ver=0" alt="Svatba">
+          </a>
+          <small>Svatba</small>
+        </div>
+
+        <!-- 3. FOTKA - TEĎ OPRAVENÁ -->
+        <div class="gallery-item">
+          <a href="https://www.rajce.idnes.cz/dimmu71/album/spanelsko" target="_blank">
+            <img src="https://img44.rajce.idnes.cz/d4403/19/19952/19952830_8a2da62be2c54f11fa1964a2bd3fb14c/images/KIF_1579.jpg?ver=0" alt="Španělsko">
+          </a>
+          <small>Španělsko</small>
+        </div>
+       
+      </div>
+      
+           
+      <div style="text-align: center; margin-top: 3rem;">
+        <a href="https://dimmu71.rajce.idnes.cz/" target="_blank" style="text-decoration: none;">
+          <button class="btn">Zobrazit celou galerii na Rajčeti</button>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    &copy; 2026 Rodina Koudelkových. Vytvořeno s láskou.
+  </footer>
+
+</body>
+</html>
