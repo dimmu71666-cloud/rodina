@@ -49,7 +49,7 @@
       position: relative;
       background: var(--dark);
       border-bottom: 1px solid var(--border);
-      padding: 4rem 2rem 3rem;
+      padding: 4rem 2rem 4rem;
       text-align: center;
       overflow: hidden;
     }
@@ -70,6 +70,7 @@
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: center;
+      align-items: center;
       flex-wrap: wrap;
       position: sticky;
       top: 0;
@@ -78,16 +79,31 @@
 
     nav a {
       font-family: 'Cinzel', serif;
-      font-size: 0.65rem; /* Zmenšeno písmo pro více odkazů */
-      letter-spacing: 0.2em;
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--silver);
       text-decoration: none;
-      padding: 1rem 1.2rem;
+      padding: 1.2rem 1.8rem;
       transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    nav a:hover { color: var(--red-glow); transform: scale(1.1); }
+    nav a:hover { color: var(--red-glow); transform: scale(1.05); }
+
+    .drone-icon {
+      width: 32px;
+      height: auto;
+      /* Filtry pro přebarvení černé ikony na červenou s jemným žhavením */
+      filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%) drop-shadow(0 0 2px var(--red));
+      transition: 0.4s ease;
+    }
+
+    nav a:hover .drone-icon {
+      transform: rotate(-15deg) scale(1.2);
+    }
 
     main { max-width: 920px; margin: 0 auto; padding: 3.5rem 1.5rem 5rem; }
 
@@ -114,7 +130,7 @@
     }
 
     .avatar {
-      width: 75px; height: 75px; /* Mírně zmenšené kruhy */
+      width: 75px; height: 75px;
       border-radius: 50%;
       margin: 0 auto 1.2rem;
       border: 3px solid var(--border);
@@ -123,7 +139,6 @@
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    /* ZDE SI ZÍTRA DOPLNÍTE ODKAZY NA FOTKY ČLENŮ */
     .avatar.a { background-image: url('tatka.jpg'); }
     .avatar.b { background-image: url('mamina.jpg'); }
     .avatar.c { background-image: url('marta.jpg'); }
@@ -131,7 +146,7 @@
 
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* 3 sloupce pro menší okénka */
+      grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
     }
 
@@ -181,6 +196,39 @@
     }
     .btn:hover { background: var(--red-glow); transform: scale(1.05); }
 
+    /* --- REALISTICKÁ ANIMACE KRVE --- */
+    .blood-text-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .blood-text {
+      font-style: italic;
+      color: var(--dim);
+      position: relative;
+      z-index: 2;
+      margin: 0;
+    }
+
+    .drop {
+      position: absolute;
+      top: 100%;
+      width: 6px;
+      height: 6px;
+      background-color: var(--red);
+      border-radius: 0 100% 100% 100%;
+      transform: rotate(45deg);
+      opacity: 0;
+      animation: drip 6s infinite ease-in;
+      box-shadow: inset -1px -1px 2px rgba(0,0,0,0.4);
+    }
+
+    @keyframes drip {
+      0% { top: 20%; opacity: 0; transform: rotate(45deg) scale(0.4); }
+      15% { opacity: 1; transform: rotate(45deg) scale(1); }
+      80% { opacity: 1; }
+      100% { top: 400%; opacity: 0; transform: rotate(45deg) scale(0.7); }
+    }
   </style>
 </head>
 <body>
@@ -188,13 +236,22 @@
   <header>
     <p style="text-transform:uppercase; letter-spacing: 0.3em; color: var(--red); font-size: 0.7rem;">✦ Soukromá stránka ✦</p>
     <h1>Rodina <span>Koudelkových</span></h1>
-    <p style="font-style: italic; color: var(--dim);">Krev je silnější než vše ostatní</p>
+    <div class="blood-text-container">
+      <p class="blood-text">Krev je silnější než vše ostatní</p>
+      <span class="drop" style="left: 15%; animation-delay: 0.5s;"></span>
+      <span class="drop" style="left: 40%; animation-delay: 3s;"></span>
+      <span class="drop" style="left: 65%; animation-delay: 1.2s;"></span>
+      <span class="drop" style="left: 85%; animation-delay: 4.5s;"></span>
+    </div>
   </header>
 
   <nav>
     <a href="#clenove">Členové</a>
     <a href="#fotky">Galerie</a>
-    <a href="https://www.youtube.com/watch?v=3AaR3_b1jaY&t=1s" target="_blank" style="color: var(--red-glow);">Dronové záběry</a>
+    <a href="https://www.youtube.com/watch?v=3AaR3_b1jaY&t=1s" target="_blank" style="color: var(--red-glow);">
+      <img src="https://cdn-icons-png.flaticon.com/512/3222/3222792.png" alt="Dron" class="drone-icon">
+      Dronové záběry
+    </a>
   </nav>
 
   <main>
@@ -226,13 +283,10 @@
 
     <div class="divider">✦ ✦ ✦</div>
 
-    <!-- SEKCE GALERIE -->
     <section id="fotky">
       <h2 style="font-family: 'Cinzel'; margin-bottom: 2rem; text-align: center;">Z našich cest a oslav</h2>
       
       <div class="gallery-grid">
-        
-        <!-- 1. FOTKA -->
         <div class="gallery-item">
           <a href="https://www.rajce.idnes.cz/dimmu71/album/mamka" target="_blank">
             <img src="https://img45.rajce.idnes.cz/d4502/15/15474/15474322_27521027bc75cccd4ad4af9bec20427a/images/13.jpg?ver=0" alt="Mamka">
@@ -240,7 +294,6 @@
           <small>Mamka</small>
         </div>
 
-        <!-- 2. FOTKA -->
         <div class="gallery-item">
           <a href="https://www.rajce.idnes.cz/dimmu71/album/svatba" target="_blank">
             <img src="https://img45.rajce.idnes.cz/d4503/19/19952/19952818_f93484e35ff360a5fbafc6318a103a2d/images/IMG-20240527-WA0017.jpg?ver=0" alt="Svatba">
@@ -248,29 +301,31 @@
           <small>Svatba</small>
         </div>
 
-        <!-- 3. FOTKA - TEĎ OPRAVENÁ -->
         <div class="gallery-item">
           <a href="https://www.rajce.idnes.cz/dimmu71/album/spanelsko" target="_blank">
             <img src="https://img44.rajce.idnes.cz/d4403/19/19952/19952830_8a2da62be2c54f11fa1964a2bd3fb14c/images/KIF_1579.jpg?ver=0" alt="Španělsko">
           </a>
           <small>Španělsko</small>
         </div>
-       
       </div>
       
-           
       <div style="text-align: center; margin-top: 3rem; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-  
-  <!-- Tlačítko Rajče -->
-  <a href="https://dimmu71.rajce.idnes.cz/" target="_blank" style="text-decoration: none;">
-    <button class="btn">Galerie na Rajčeti</button>
-  </a>
+        <a href="https://dimmu71.rajce.idnes.cz/" target="_blank" style="text-decoration: none;">
+          <button class="btn">Galerie na Rajčeti</button>
+        </a>
 
-  <!-- Tlačítko Zonerama -->
-  <a href="https://eu.zonerama.com/dimmu71/1350126?count=23" target="_blank" style="text-decoration: none;">
-    <button class="btn" style="background: transparent; border: 2px solid var(--red); color: var(--light);">
-      Galerie na Zonerama
-    </button>
-  </a>
+        <a href="https://eu.zonerama.com/dimmu71/1350126?count=23" target="_blank" style="text-decoration: none;">
+          <button class="btn" style="background: transparent; border: 2px solid var(--red); color: var(--light);">
+            Galerie na Zonerama
+          </button>
+        </a>
+      </div>
+    </section>
+  </main>
 
-</div>
+  <footer>
+    &copy; 2026 Rodina Koudelkových. Vytvořeno s láskou.
+  </footer>
+
+</body>
+</html>
